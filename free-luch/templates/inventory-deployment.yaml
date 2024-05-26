@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: inventory
+  template:
+    metadata:
+      labels:
+        app: inventory
+    spec:
+      containers:
+        - name: inventory
+          image: "{{ .Values.inventory.image }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.inventory.port }}
+      initContainers:
+        - name: wait-for-mongodb
+          image: busybox
+          command: ['sh', '-c', 'until nc -z mongodb {{ .Values.mongodb.port }}; do echo waiting for mongodb; sleep 2; done;']
+        - name: wait-for-rabbitmq
+          image: busybox
+          command: ['sh', '-c', 'until nc -z rabbitmq {{ (index .Values.rabbitmq.ports 0) }}; do echo waiting for rabbitmq; sleep 2; done;']
+        - name: wait-for-nginx
+          image: busybox
+          command: ['sh', '-c', 'until nc -z nginx {{ .Values.nginx.port }}; do echo waiting for nginx; sleep 2; done;']

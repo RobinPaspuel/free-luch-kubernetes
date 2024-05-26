@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kitchen
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kitchen
+  template:
+    metadata:
+      labels:
+        app: kitchen
+    spec:
+      initContainers:
+        - name: wait-for-mongodb
+          image: busybox
+          command: ['sh', '-c', 'until nc -z mongodb {{ .Values.mongodb.port }}; do echo waiting for mongodb; sleep 2; done;']
+        - name: wait-for-rabbitmq
+          image: busybox
+          command: ['sh', '-c', 'until nc -z rabbitmq {{ (index .Values.rabbitmq.ports 0) }}; do echo waiting for rabbitmq; sleep 2; done;']
+        - name: wait-for-nginx
+          image: busybox
+          command: ['sh', '-c', 'until nc -z nginx {{ .Values.nginx.port }}; do echo waiting for nginx; sleep 2; done;']
+      containers:
+        - name: kitchen
+          image: "{{ .Values.kitchen.image }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.kitchen.port }}

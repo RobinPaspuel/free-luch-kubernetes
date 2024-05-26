@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory
+spec:
+  ports:
+    - port: {{ .Values.inventory.port }}
+  selector:
+    app: inventory

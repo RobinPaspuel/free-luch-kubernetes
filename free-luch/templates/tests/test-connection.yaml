@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "free-luch.fullname" . }}-test-connection"
+  labels:
+    {{- include "free-luch.labels" . | nindent 4 }}
+    {{- include "free-luch.selectorLabels" . | nindent 4 }}
+    test: "connection"
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "free-luch.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client
+          image: "{{ .Values.client.image }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.client.port }}
+      initContainers:
+        - name: wait-for-kitchen
+          image: busybox
+          command: ['sh', '-c', 'until nc -z kitchen {{ .Values.kitchen.port }}; do echo waiting for kitchen; sleep 2; done;']
+        - name: wait-for-inventory
+          image: busybox
+          command: ['sh', '-c', 'until nc -z inventory {{ .Values.inventory.port }}; do echo waiting for inventory; sleep 2; done;']

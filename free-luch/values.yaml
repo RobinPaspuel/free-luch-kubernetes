@@ -1,0 +1,54 @@
+mongodb:
+  image: mongo
+  port: 27017
+
+rabbitmq:
+  image: rabbitmq:3-management-alpine
+  ports:
+    - 5672
+    - 15672
+
+nginx:
+  image: robinpas/nginx
+  port: 80
+
+kitchen:
+  image: robinpas/kitchen
+  port: 8000
+
+inventory:
+  image: robinpas/inventory
+  port: 8001
+
+client:
+  image: robinpas/client
+  port: 3000
+
+service:
+  port: 80
+
+serviceAccount:
+  create: true
+  name: ""
+
+ingress:
+  enabled: true
+  host: localhost
+  annotations: {}
+  paths:
+    - path: /kitchen
+      backend: nginx
+    - path: /inventory
+      backend: nginx
+    - path: /
+      backend: nginx
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+image:
+  tag: latest
+  pullPolicy: IfNotPresent

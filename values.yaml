@@ -1,0 +1,56 @@
+# Default values for free-lunch.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+# Image configurations for MongoDB
+images:
+  mongodb:
+    repository: mongo
+    tag: latest
+    pullPolicy: IfNotPresent
+
+# Service Account
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+# Pod Annotations and Security Contexts
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
+
+# Service configurations for MongoDB
+services:
+  mongodb:
+    type: ClusterIP
+    port: 27017
+
+# Ingress (not needed for MongoDB)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+# Resource limits and requests
+resources: {}
+
+# Autoscaling configurations
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+# Node Selectors, Tolerations, and Affinity
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -14,7 +14,7 @@ export default function CardSettings() {
     try {
       await axios({
         method: "POST",
-        url: "http://localhost/kitchen/orders",
+        url: "http://192.168.49.2:30080/kitchen/orders",
         params: {
           serves_number: numberDishes,
         },

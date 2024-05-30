@@ -11,7 +11,7 @@ export default function HeaderStats() {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch("http://localhost/kitchen/orders");
+      const response = await fetch("http://192.168.49.2:30080/kitchen/orders");
       const parseResponse = await response.json();
 
       const recipes = parseResponse.map((order) => order.recipes).flat();
@@ -29,7 +29,7 @@ export default function HeaderStats() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost/inventory/products");
+      const response = await fetch("http://192.168.49.2:30080/inventory/products");
       const parseResponse = await response.json();
       const productsUsed = parseResponse.reduce(
         (acc, item) => acc + item.used_times,
@@ -43,7 +43,7 @@ export default function HeaderStats() {
 
   const fetchPurchases = async () => {
     try {
-      const response = await fetch("http://localhost/inventory/purchases");
+      const response = await fetch("http://192.168.49.2:30080/inventory/purchases");
       const parseResults = await response.json();
       const purchases = parseResults.length;
       setPurchases(purchases.toString());

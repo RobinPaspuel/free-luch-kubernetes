@@ -23,6 +23,7 @@ inventory:
 client:
   image: robinpas/client
   port: 3000
+  pullPolicy: Always
 
 service:
   port: 80

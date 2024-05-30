@@ -1,7 +1,11 @@
-# Free Lunch App
+# Free lunch day!
+
+The restaurant manager must be able to tell the kitchen that a dish must be prepared, the kitchen randomly selects the dish to prepare and asks the food warehouse for the required ingredients, if the warehouse has availability it delivers the ingredients to the kitchen, if not You must buy them in the market place. When the kitchen receives the ingredients, it prepares the dish and delivers the prepared dish.
+
+
 App developed with microservices based back-end and NextJS front-end.
 
-**Test a live version of the App at [HERE](https://free-lunch.vercel.app)**
+
 
 
 ## Technology Stack
@@ -11,6 +15,9 @@ App developed with microservices based back-end and NextJS front-end.
 - [Nginx](https://www.nginx.com/)
 - [NextJS](https://nextjs.org/)
 - [Docker](https://www.docker.com/)
+- [Kubernetes](https://kubernetes.io/es/)
+- [Prometheus](https://prometheus.io)
+<!-- - [Fluentd](https://www.fluentd.org/) -->
 
 ## Get Started
 > Docker and Docker Compose are required.
@@ -21,7 +28,9 @@ App developed with microservices based back-end and NextJS front-end.
   ```
 - Wait for all the services to start.
     > The process of connecting to **rabbitMQ** service may cause the other services to restart a couple of times.
-- The app is available at [`http://localhost/`](http://localhost/)
+- The app is available at 
+    > Cluster IP: 30080 
+
     > Nginx uses the port 80 (TCP) make sure to have the port free
 
 ## App Services
@@ -36,20 +45,12 @@ The inventory service is in charge of checking the availability of the products 
 
 ### Services Communication
 The communication between the servies is done through message broker, this allow to handle the unavailability of a service. In this project RabbitMQ is used as the message broker.
-## Testing the Endpoints
-To test all the available endpoints import the folder `postman-collection&environment` to Postman. It includes the base routes for both services as environment variables and the endpoints.
+
 
 ## Deployment Details
 
 The services were deployed to Azure App Service using docker-compose with images allocated on Docker Hub to use a continuous deployment approach. The front-end were deployed on Vercel through its own repository.
 
-## e2e Testing
-
-To run the test on the services run:
-```bash
-$ npm run test:e2e
-```
-This will start the docker containers needed (MongoDB and RabbitMQ) and run the tests, after the test both containers will be stoped. The test are individual for each service, but the command is the same.
 
 # Additional Information
 
@@ -65,8 +66,10 @@ The connection URL to MongoDB is `mongodb://localhost:27017`
 > The Nginx server may not start correctly (502 badway responses), to solve reload the container.
 
 
+# Free-Luch-kubernetes
 
+graph TD
+    response --> success
+    success --> message
+    success --> status_code
 
-
-
-# free-luch-kubernetes
